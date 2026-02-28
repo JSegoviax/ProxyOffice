@@ -25,8 +25,11 @@ class GameEngine {
         this.currentScene = null;
         this.inventory = [];
         this.activeItem = null;
-        this.gameState = {};
+        this.gameState = {
+            proxyLevel: 1 // Baseline level
+        };
         this.dialogueSystem = new DialogueSystem(this);
+        this.minigame = new MinigameSystem(this);
 
         this.init();
     }
@@ -116,6 +119,18 @@ class GameEngine {
                             }
                         }
                         return false; // Not the right item
+                    }
+                },
+                {
+                    id: "protagonist_computer",
+                    name: "Your Computer",
+                    x: 150, y: 700, width: 80, height: 60, // approximate desk location bottom left
+                    onInteract: (element) => {
+                        if (this.gameState.proxyLevel >= 2) {
+                            this.showDialogue("Nothing else to do here. You already calibrated your ego.");
+                        } else {
+                            this.minigame.start();
+                        }
                     }
                 }
             ]

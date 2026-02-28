@@ -15,13 +15,49 @@
     <div id="ui-layer">
       <div id="dialogue-box" class="hidden">
         <div id="dialogue-text"></div>
-        <div id="dialogue-choices"></div>
+        <div id="dialogue-options"></div>
       </div>
       <div id="inventory-bar"></div>
+
+      <!-- Minigame Overlay (Hidden by default) -->
+      <div id="minigame-overlay" class="hidden">
+        <div id="minigame-crt-effect">
+          <div class="header">SYSTEM: ProxyCorp Synergy Alignment v2.1</div>
+          <div id="minigame-status">AWAITING INPUT...</div>
+
+          <div id="data-cluster-area">
+            <!-- Data Blocks injected here -->
+          </div>
+
+          <div class="bins-container">
+            <div class="bin compliance-bin" data-type="compliance">
+              <span>COMPLIANCE</span>
+            </div>
+            <div class="bin optimization-bin" data-type="optimization">
+              <span>OPTIMIZATION</span>
+            </div>
+            <div class="bin disruption-bin" data-type="disruption">
+              <span>DISRUPTION</span>
+            </div>
+            <div class="bin redundancy-bin" data-type="redundancy">
+              <span>REDUNDANCY</span>
+            </div>
+          </div>
+
+          <div class="progress-wrapper">
+            <div id="minigame-progress-bar">
+              <div id="minigame-progress-fill"></div>
+            </div>
+          </div>
+
+          <button id="minigame-logoff">LOG OFF</button>
+        </div>
+      </div>
     </div>
   </div>
 
   <script src="src/dialogue_system.js"></script>
+  <script src="src/minigame.js"></script>
   <script src="src/engine.js"></script>
 </body>
 
