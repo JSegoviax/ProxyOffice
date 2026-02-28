@@ -294,16 +294,16 @@ class GameEngine {
                 element.addEventListener('mousemove', triggerMove);
                 element.addEventListener('mouseleave', triggerLeave);
 
-                // Left click -> Look
+                // Right click -> Look
                 const triggerLook = (e) => {
+                    e.preventDefault(); // Prevent context menu
                     if (e.type === 'touchstart') return; // Mobile touch maps to interact directly below
                     const desc = item.description || "You see nothing special.";
                     this.showDialogue(desc);
                 };
 
-                // Right click -> Interact or Use Item
+                // Left click -> Interact or Use Item
                 const triggerInteract = (e) => {
-                    e.preventDefault();
                     if (e.type === 'touchstart') e.preventDefault();
 
                     if (this.activeItem) {
@@ -326,8 +326,8 @@ class GameEngine {
                     }
                 };
 
-                element.addEventListener('click', triggerLook);
-                element.addEventListener('contextmenu', triggerInteract);
+                element.addEventListener('click', triggerInteract);
+                element.addEventListener('contextmenu', triggerLook);
                 element.addEventListener('touchstart', triggerInteract, { passive: false });
 
                 this.sceneLayer.appendChild(element);
