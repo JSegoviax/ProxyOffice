@@ -19,6 +19,7 @@ class GameEngine {
         this.dialogueText = document.getElementById('dialogue-text');
         this.dialogueChoices = document.getElementById('dialogue-choices');
         this.inventoryBar = document.getElementById('inventory-bar');
+        this.tooltip = document.getElementById('custom-tooltip');
 
         this.baseWidth = 1024;
         this.baseHeight = 768;
@@ -48,6 +49,7 @@ class GameEngine {
                 {
                     id: "carlbot",
                     name: "Carlbot",
+                    description: "A vintage, slightly rusted coffee machine on treads. It drips a highly corrosive brown sludge.",
                     image: "assets/carlbot.png",
                     x: 234, y: 393, width: 156, height: 212,
                     onInteract: (element) => {
@@ -57,6 +59,7 @@ class GameEngine {
                 {
                     id: "hr_bot",
                     name: "HR Bot",
+                    description: "A cheerful robot wearing a mangled party hat. It exists to enforce mandatory fun.",
                     image: "assets/hr_bot.png",
                     x: 600, y: 550, width: 104, height: 161,
                     onInteract: (element) => {
@@ -66,6 +69,7 @@ class GameEngine {
                 {
                     id: "gary",
                     name: "Gary",
+                    description: "Your coworker, currently paralyzed by corporate anxiety. Don't look at his screen.",
                     image: "assets/gary.png",
                     x: 828, y: 440, width: 94, height: 191,
                     onInteract: (element) => {
@@ -75,6 +79,7 @@ class GameEngine {
                 {
                     id: "corporate_call",
                     name: "Corporate Monitor",
+                    description: "The all-seeing eye of middle management. Failure is not an option.",
                     image: "assets/corporate_monitor.png",
                     x: 540, y: 150, width: 122, height: 181,
                     onInteract: (element) => {
@@ -84,6 +89,7 @@ class GameEngine {
                 {
                     id: "proxybot",
                     name: "Proxybot QC",
+                    description: "A blank, soulless drone waiting for QA approval to replace a human worker.",
                     image: "assets/proxybot.png",
                     x: 878, y: 700, width: 100, height: 151,
                     onInteract: (element) => {
@@ -93,6 +99,7 @@ class GameEngine {
                 {
                     id: "jims_locked_drawer",
                     name: "Locked Drawer",
+                    description: "A hidden desk drawer. Feels like it needs a small key to open.",
                     x: 280, y: 700, width: 80, height: 50,
                     onInteract: (element) => {
                         if (this.gameState.drawerUnlocked) {
@@ -124,6 +131,7 @@ class GameEngine {
                 {
                     id: "protagonist_computer",
                     name: "Your Computer",
+                    description: "Your terminal. The interface is archaic and the work is abstract.",
                     x: 150, y: 700, width: 80, height: 60, // approximate desk location bottom left
                     onInteract: (element) => {
                         if (this.gameState.proxyLevel >= 2) {
@@ -241,7 +249,45 @@ class GameEngine {
                 element.style.top = `${item.y}px`;
                 element.style.width = `${item.width}px`;
                 element.style.height = `${item.height}px`;
-                element.title = item.name; // Tooltip
+
+                // Custom tooltip implementation
+                const triggerHover = (e) => {
+                    this.tooltip.classList.remove('hidden');
+                    let actionText = "[ Left Click : Interact ]";
+                    if (this.activeItem) {
+                        actionText = `[ Left Click : Use ${this.activeItem} ]`;
+                    } else if (item.name === "Locked Drawer") {
+                        actionText = "[ Left Click : Open ]";
+                    }
+                    this.tooltip.innerHTML = `
+                        <div class="tooltip-name">${item.name}</div>
+                        <div class="tooltip-desc">${item.description || "A mysterious object."}</div>
+                        <div class="tooltip-action">${actionText}</div>
+                    `;
+                };
+
+                const triggerMove = (e) => {
+                    const rect = this.container.getBoundingClientRect();
+                    const scale = rect.width / this.baseWidth;
+
+                    let x = (e.clientX - rect.left) / scale + 15;
+                    let y = (e.clientY - rect.top) / scale + 15;
+
+                    if (x > this.baseWidth - 250) x = x - 270;
+                    if (y > this.baseHeight - 100) y = y - 100;
+
+                    this.tooltip.style.left = `${x}px`;
+                    this.tooltip.style.top = `${y}px`;
+                };
+
+                const triggerLeave = (e) => {
+                    this.tooltip.classList.add('hidden');
+                };
+
+                element.addEventListener('mouseenter', triggerHover);
+                element.addEventListener('mousemove', triggerMove);
+                element.addEventListener('mouseleave', triggerLeave);
+
                 // Set up interaction
                 const triggerInteract = (e) => {
                     if (e.type === 'touchstart') e.preventDefault();
