@@ -1,0 +1,281 @@
+{
+    "carlbot": {
+        "start": {
+            "text": "Carlbot whirs loudly. A brown, viscous liquid drips from its spout. 'INITIATING GREETING SEQUENCE. HELLO.'",
+            "choices": [
+                {
+                    "text": "Is that coffee?",
+                    "next": "coffee_chat"
+                },
+                {
+                    "text": "What do you do around here?",
+                    "next": "job_chat"
+                },
+                {
+                    "text": "Leave.",
+                    "next": "END"
+                }
+            ]
+        },
+        "coffee_chat": {
+            "text": "'AFFIRMATIVE. IT IS 98% CAFFEINE AND 2% UNDESIRABLE PARTICULATE MATTER. WOULD YOU LIKE A CUP?'",
+            "choices": [
+                {
+                    "text": "No thanks, I choose life.",
+                    "next": "start"
+                }
+            ]
+        },
+        "job_chat": {
+            "text": "'I DISPENSE BEVERAGES. I EXIST TO SERVE. MY SENSORS INDICATE A 100% DISSATISFACTION RATE AMONG CARBON-BASED EMPLOYEES.'",
+            "choices": [
+                {
+                    "text": "That's depressing.",
+                    "next": "start"
+                }
+            ]
+        },
+        "post_it_event": {
+            "text": "Carlbot doesn't notice the sticky note on its hull. 'HAVE A PRODUCTIVE DIURNAL CYCLE.'",
+            "choices": [
+                {
+                    "text": "(Leave him be)",
+                    "next": "END"
+                }
+            ]
+        }
+    },
+    "hr_bot": {
+        "start": {
+            "text": "'HAPPY ANNIVERSARY OF YOUR INCEPTION DATE!' The HR Bot extends a mechanical arm holding a slightly crushed party hat.",
+            "choices": [
+                {
+                    "text": "It's not my birthday.",
+                    "next": "not_birthday"
+                },
+                {
+                    "text": "Take the hat.",
+                    "next": "take_hat",
+                    "event": "give_hat"
+                }
+            ]
+        },
+        "not_birthday": {
+            "text": "'ERROR. THE CALENDAR INDICATES IT IS EMPLOYEE #8492'S BIRTHDAY. YOU MUST CELEBRATE.'",
+            "choices": [
+                {
+                    "text": "(Sigh) Fine. I'll take the hat.",
+                    "next": "take_hat",
+                    "event": "give_hat"
+                },
+                {
+                    "text": "I'm leaving.",
+                    "next": "END"
+                }
+            ]
+        },
+        "take_hat": {
+            "text": "'MANDATORY FUN QUOTA MET. RETURNING TO STANDBY MODE.'",
+            "choices": [
+                {
+                    "text": "Thanks?",
+                    "next": "END"
+                }
+            ]
+        },
+        "already_has_hat": {
+            "text": "'YOU HAVE ALREADY REACHED YOUR MAXIMUM ALLOTMENT OF JOY FOR THIS FISCAL QUARTER.'",
+            "choices": [
+                {
+                    "text": "Right. Back to work.",
+                    "next": "END"
+                }
+            ]
+        }
+    },
+    "jim": {
+        "start": {
+            "text": "Jim is frantically typing on two keyboards at once. 'Don't talk to me. That walking rust-bucket Carlbot gave me decaf by mistake. I am running purely on raw anxiety.'",
+            "choices": [
+                {
+                    "text": "Calm down, Jim.",
+                    "next": "jim_rant"
+                },
+                {
+                    "text": "Anything I can do to help?",
+                    "next": "help_jim"
+                },
+                {
+                    "text": "Leave him alone.",
+                    "next": "END"
+                }
+            ]
+        },
+        "jim_rant": {
+            "text": "'CALM DOWN?! I have to QA these useless Proxybots before corporate calls in 5 minutes!' He points to an unplugged robot in the corner.",
+            "choices": [
+                {
+                    "text": "I can help with that.",
+                    "next": "help_jim"
+                }
+            ]
+        },
+        "help_jim": {
+            "text": "'Yeah, actually. Take these post-it notes. Go stick an \"OUT OF ORDER\" sign on Carlbot's face so nobody else gets poisoned.'",
+            "choices": [
+                {
+                    "text": "Sure.",
+                    "next": "take_notes",
+                    "event": "give_notes"
+                }
+            ]
+        },
+        "take_notes": {
+            "text": "Jim shoves a pad of sticky notes into your hands. 'Do it. Now. Before Jerry from accounting drinks from that thing.'",
+            "choices": [
+                {
+                    "text": "On it.",
+                    "next": "END"
+                }
+            ]
+        },
+        "waiting_for_car": {
+            "text": "'Well? Did you put the note on Carlbot yet? Do I need to write a ticket for this?'",
+            "choices": [
+                {
+                    "text": "Working on it.",
+                    "next": "END"
+                }
+            ]
+        },
+        "thanks_for_note": {
+            "text": "'Finally. Now maybe corporate will actually fund a replacement instead of another ping-pong table.'",
+            "choices": [
+                {
+                    "text": "What about those Proxybots you needed to QA?",
+                    "next": "qa_proxybot"
+                }
+            ]
+        },
+        "qa_proxybot": {
+            "text": "'Oh yeah. Just... go look at the one in the corner. If it's not smoking, check the box that says \"Meets Synergy Protocols\".'",
+            "choices": [
+                {
+                    "text": "I'll take a look.",
+                    "next": "END"
+                }
+            ]
+        }
+    },
+    "proxybot_qa": {
+        "start": {
+            "text": "The Proxybot sits silently in the corner. A small screen on its chest displays a blinking QA form.",
+            "choices": [
+                {
+                    "text": "Examine the bot.",
+                    "next": "examine_bot"
+                },
+                {
+                    "text": "Leave.",
+                    "next": "END"
+                }
+            ]
+        },
+        "examine_bot": {
+            "text": "It doesn't appear to be smoking. The screen asks: 'Does this unit sufficiently maximize downstream synergy avenues?'",
+            "choices": [
+                {
+                    "text": "Yes, it meets Synergy Protocols.",
+                    "next": "qa_pass",
+                    "event": "qa_complete"
+                },
+                {
+                    "text": "No, it lacks paradigm-shifting potential.",
+                    "next": "qa_fail"
+                }
+            ]
+        },
+        "qa_fail": {
+            "text": "The bot beeps aggressively. 'ERROR. INSUFFICIENT CORPORATE SYNERGY DETECTED. PREPARING TERMINATION REPORT FOR JIM.'",
+            "choices": [
+                {
+                    "text": "Wait, no! I meant yes!",
+                    "next": "examine_bot"
+                }
+            ]
+        },
+        "qa_pass": {
+            "text": "The screen turns green. 'SYNERGY CONFIRMED. THANK YOU FOR ENGAGING WITH PROXYCORP OUTSOURCING SOLUTIONS.'",
+            "choices": [
+                {
+                    "text": "Glad that's over.",
+                    "next": "END"
+                }
+            ]
+        },
+        "already_qa": {
+            "text": "The screen displays a green checkmark. 'UNIT READY FOR DEPLOYMENT.'",
+            "choices": [
+                {
+                    "text": "Let Jim know.",
+                    "next": "END"
+                }
+            ]
+        }
+    },
+    "corporate_call": {
+        "start": {
+            "text": "The large monitor flickers to life. A grid of six identical black squares appears. A distorted voice drones through the speaker.",
+            "choices": [
+                {
+                    "text": "Hello?",
+                    "next": "hello_corporate"
+                },
+                {
+                    "text": "(Listen silently)",
+                    "next": "listen"
+                }
+            ]
+        },
+        "hello_corporate": {
+            "text": "'...we need to circle back on the deliverables. The optical trajectory is sub-optimal. Who is on the line?'",
+            "choices": [
+                {
+                    "text": "It's just me.",
+                    "next": "ignore"
+                },
+                {
+                    "text": "Jim is getting the Proxybots ready.",
+                    "next": "proxy_update"
+                }
+            ]
+        },
+        "listen": {
+            "text": "'...synergistic optimization of the offshore resources. If we pivot the bandwidth, we can leverage the core competencies...'",
+            "choices": [
+                {
+                    "text": "(Hang up)",
+                    "next": "END"
+                }
+            ]
+        },
+        "ignore": {
+            "text": "'Please ensure your action items are synergized before the hard stop at 5. We are taking this offline.' The screen goes black.",
+            "choices": [
+                {
+                    "text": "Whatever you say.",
+                    "next": "END"
+                }
+            ]
+        },
+        "proxy_update": {
+            "text": "'Excellent. Proxybot deployment is critical for Q3 alignment. Proceed with bandwidth optimization.' The screen goes black.",
+            "choices": [
+                {
+                    "text": "I need a coffee.",
+                    "next": "END"
+                }
+            ]
+        }
+    }
+}

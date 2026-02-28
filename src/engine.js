@@ -13,46 +13,51 @@ class GameEngine {
         this.baseHeight = 768;
         this.currentScene = null;
         this.inventory = [];
+        this.dialogueSystem = new DialogueSystem(this);
 
         this.init();
     }
 
-    init() {
+    async init() {
         this.handleResize();
         window.addEventListener('resize', () => this.handleResize());
 
-        // Test scene setup
+        await this.dialogueSystem.loadDialogue();
+
+        // Test scene setup with Part 1 characters
         this.loadScene({
             name: "Office",
             background: "#3a2e2b", // Temporary color until we have art
             interactables: [
                 {
-                    id: "computer",
-                    x: 400, y: 300, width: 150, height: 120, // Hitbox coordinates (native resolution)
-                    name: "Computer",
-                    onInteract: () => this.showDialogue("It's an old CRT monitor. The screen is flickering.")
+                    id: "carlbot",
+                    x: 200, y: 300, width: 150, height: 200,
+                    name: "Carlbot",
+                    onInteract: () => this.dialogueSystem.startConversation('carlbot')
                 },
                 {
-                    id: "door",
-                    x: 800, y: 200, width: 150, height: 400,
-                    name: "Door",
-                    onInteract: () => {
-                        if (this.inventory.includes("Proxy Card")) {
-                            this.showDialogue("You swipe the Proxy Card... *beep* The door unlocks!");
-                        } else {
-                            this.showDialogue("The door is locked from the outside. I need a key or a proxy card.");
-                        }
-                    }
+                    id: "hr_bot",
+                    x: 600, y: 400, width: 100, height: 200,
+                    name: "HR Bot",
+                    onInteract: () => this.dialogueSystem.startConversation('hr_bot')
                 },
                 {
-                    id: "proxy_card",
-                    x: 200, y: 500, width: 50, height: 30, // Small card
-                    name: "Proxy Card",
-                    onInteract: (element) => {
-                        this.showDialogue("You found a Proxy Card!");
-                        this.addItemToInventory("Proxy Card");
-                        element.remove(); // Remove from scene visually
-                    }
+                    id: "jim",
+                    x: 800, y: 300, width: 120, height: 250,
+                    name: "Jim",
+                    onInteract: () => this.dialogueSystem.startConversation('jim')
+                },
+                {
+                    id: "proxybot",
+                    x: 850, y: 550, width: 100, height: 150,
+                    name: "Proxybot",
+                    onInteract: () => this.dialogueSystem.startConversation('proxybot_qa')
+                },
+                {
+                    id: "corporate_call",
+                    x: 450, y: 150, width: 200, height: 120,
+                    name: "Corporate Monitor",
+                    onInteract: () => this.dialogueSystem.startConversation('corporate_call')
                 }
             ]
         });
@@ -109,9 +114,12 @@ class GameEngine {
                 div.style.height = `${item.height}px`;
                 div.title = item.name; // Tooltip on hover
 
-                div.addEventListener('click', () => {
+                const triggerInteract = (e) => {
+                    if (e.type === 'touchstart') e.preventDefault();
                     if (item.onInteract) item.onInteract(div);
-                });
+                };
+                div.addEventListener('click', triggerInteract);
+                div.addEventListener('touchstart', triggerInteract, { passive: false });
 
                 this.sceneLayer.appendChild(div);
             });
@@ -127,17 +135,25 @@ class GameEngine {
             choices.forEach(choice => {
                 const btn = document.createElement('button');
                 btn.innerText = choice.text;
-                btn.addEventListener('click', () => {
+                const triggerChoice = (e) => {
+                    if (e.type === 'touchstart') e.preventDefault();
                     this.hideDialogue();
                     if (choice.action) choice.action();
-                });
+                };
+                btn.addEventListener('click', triggerChoice);
+                btn.addEventListener('touchstart', triggerChoice, { passive: false });
                 this.dialogueChoices.appendChild(btn);
             });
         } else {
             // Click anywhere to continue/close if no choices
             const continueBtn = document.createElement('button');
             continueBtn.innerText = "(Click to continue)";
-            continueBtn.addEventListener('click', () => this.hideDialogue());
+            const triggerContinue = (e) => {
+                if (e.type === 'touchstart') e.preventDefault();
+                this.hideDialogue();
+            };
+            continueBtn.addEventListener('click', triggerContinue);
+            continueBtn.addEventListener('touchstart', triggerContinue, { passive: false });
             this.dialogueChoices.appendChild(continueBtn);
         }
     }
