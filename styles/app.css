@@ -139,6 +139,7 @@ div.interactable:hover {
     color: #4af626;
     overflow: hidden;
     user-select: none;
+    pointer-events: auto;
     box-sizing: border-box;
 }
 
