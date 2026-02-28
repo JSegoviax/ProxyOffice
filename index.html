@@ -12,104 +12,96 @@
   <!-- Letterboxed Game Container -->
   <div id="game-container">
     <div id="scene-layer"></div>
-    <div id="ui-layer">
-      <div id="dialogue-box" class="hidden">
-        <div id="dialogue-text"></div>
-        <div id="dialogue-choices"></div>
-      </div>
-      <div id="custom-tooltip" class="hidden"></div>
-      <div id="inventory-bar"></div>
+    <!-- ProxyOS Desktop Overlay (Replaces singular minigame) -->
+    <div id="os-overlay">
+      <div id="os-desktop">
+        <!-- App Icons -->
+        <div class="os-icon" data-app="work">
+          <div class="os-icon-img" style="background-color: #4af626;"></div>
+          <div class="os-icon-text">Work.exe</div>
+        </div>
+        <div class="os-icon" data-app="inbox">
+          <div class="os-icon-img" style="background-color: #00ffff; border-radius: 5px;"></div>
+          <div class="os-icon-text">Inbox Triage</div>
+        </div>
+        <div class="os-icon" data-app="store">
+          <div class="os-icon-img" style="background-color: #ffd700;"></div>
+          <div class="os-icon-text">Company Store</div>
+        </div>
 
-      <!-- ProxyOS Desktop Overlay (Replaces singular minigame) -->
-      <div id="os-overlay" class="hidden">
-        <div id="os-desktop">
-          <!-- App Icons -->
-          <div class="os-icon" data-app="work">
-            <div class="os-icon-img" style="background-color: #4af626;"></div>
-            <div class="os-icon-text">Work.exe</div>
-          </div>
-          <div class="os-icon" data-app="inbox">
-            <div class="os-icon-img" style="background-color: #00ffff; border-radius: 5px;"></div>
-            <div class="os-icon-text">Inbox Triage</div>
-          </div>
-          <div class="os-icon" data-app="store">
-            <div class="os-icon-img" style="background-color: #ffd700;"></div>
-            <div class="os-icon-text">Company Store</div>
-          </div>
+        <!-- Taskbar -->
+        <div id="os-taskbar">
+          <div id="os-start-button">ProxyOS v95</div>
+          <div id="os-sp-counter">SP: 0</div>
+          <button id="os-logoff">LOG OFF</button>
+        </div>
 
-          <!-- Taskbar -->
-          <div id="os-taskbar">
-            <div id="os-start-button">ProxyOS v95</div>
-            <div id="os-sp-counter">SP: 0</div>
-            <button id="os-logoff">LOG OFF</button>
+        <!-- Window: Synergy Alignment (Work) -->
+        <div id="app-window-work" class="os-window hidden">
+          <div class="os-window-header">
+            <span>Synergy Alignment System v2.1</span>
+            <button class="os-btn-close" data-app="work">X</button>
           </div>
-
-          <!-- Window: Synergy Alignment (Work) -->
-          <div id="app-window-work" class="os-window hidden">
-            <div class="os-window-header">
-              <span>Synergy Alignment System v2.1</span>
-              <button class="os-btn-close" data-app="work">X</button>
-            </div>
-            <div class="os-window-content">
-              <div id="minigame-status">AWAITING INPUT... FILE: PROXY-01</div>
-              <div id="data-cluster-area"></div>
-              <div id="bin-container">
-                <div class="bin" data-type="compliance">COMPLIANCE</div>
-                <div class="bin" data-type="optimization">OPTIMIZATION</div>
-                <div class="bin" data-type="disruption">DISRUPTION</div>
-                <div class="bin" data-type="redundancy">REDUNDANCY</div>
-              </div>
+          <div class="os-window-content">
+            <div id="minigame-status">AWAITING INPUT... FILE: PROXY-01</div>
+            <div id="data-cluster-area"></div>
+            <div id="bin-container">
+              <div class="bin" data-type="compliance">COMPLIANCE</div>
+              <div class="bin" data-type="optimization">OPTIMIZATION</div>
+              <div class="bin" data-type="disruption">DISRUPTION</div>
+              <div class="bin" data-type="redundancy">REDUNDANCY</div>
             </div>
           </div>
+        </div>
 
-          <!-- Window: Company Store -->
-          <div id="app-window-store" class="os-window hidden">
-            <div class="os-window-header">
-              <span>Company Store - Spend Synergy Points</span>
-              <button class="os-btn-close" data-app="store">X</button>
-            </div>
-            <div class="os-window-content">
-              <div id="store-items-container">
-                <!-- Items injected dynamically -->
-              </div>
+        <!-- Window: Company Store -->
+        <div id="app-window-store" class="os-window hidden">
+          <div class="os-window-header">
+            <span>Company Store - Spend Synergy Points</span>
+            <button class="os-btn-close" data-app="store">X</button>
+          </div>
+          <div class="os-window-content">
+            <div id="store-items-container">
+              <!-- Items injected dynamically -->
             </div>
           </div>
+        </div>
 
-          <!-- Window: Inbox Triage -->
-          <div id="app-window-inbox" class="os-window hidden">
-            <div class="os-window-header">
-              <span>Inbox Triage v1.02</span>
-              <button class="os-btn-close" data-app="inbox">X</button>
-            </div>
-            <div id="inbox-stats-bar">
-              <span>Time: <span id="inbox-timer">30</span>s</span>
-              <span>Quota: <span id="inbox-quota">0/10</span></span>
-            </div>
-            <div id="inbox-policy-banner">
-              CURRENT POLICY: <span id="inbox-active-policy">AWAITING CONNECTION...</span>
-            </div>
-            <div class="os-window-content"
-              style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+        <!-- Window: Inbox Triage -->
+        <div id="app-window-inbox" class="os-window hidden">
+          <div class="os-window-header">
+            <span>Inbox Triage v1.02</span>
+            <button class="os-btn-close" data-app="inbox">X</button>
+          </div>
+          <div id="inbox-stats-bar">
+            <span>Time: <span id="inbox-timer">30</span>s</span>
+            <span>Quota: <span id="inbox-quota">0/10</span></span>
+          </div>
+          <div id="inbox-policy-banner">
+            CURRENT POLICY: <span id="inbox-active-policy">AWAITING CONNECTION...</span>
+          </div>
+          <div class="os-window-content"
+            style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
 
-              <div id="inbox-email-card" class="hidden">
-                <div id="email-sender">From: HR@proxycorp.local</div>
-                <div id="email-subject">Subject: Mandatory Fun Hour</div>
-                <hr>
-                <div id="email-body">Please ensure attendance at the 4PM team building exercise. Absences will be logged
-                  against your KPI.</div>
-              </div>
-
-              <div id="inbox-controls" class="hidden">
-                <button id="btn-inbox-deny" class="inbox-btn deny">&lt; DENY</button>
-                <button id="btn-inbox-approve" class="inbox-btn approve">APPROVE &gt;</button>
-              </div>
-
-              <button id="btn-inbox-start" class="btn-buy" style="margin-top: 50px;">START SHIFT</button>
+            <div id="inbox-email-card" class="hidden">
+              <div id="email-sender">From: HR@proxycorp.local</div>
+              <div id="email-subject">Subject: Mandatory Fun Hour</div>
+              <hr>
+              <div id="email-body">Please ensure attendance at the 4PM team building exercise. Absences will be logged
+                against your KPI.</div>
             </div>
+
+            <div id="inbox-controls" class="hidden">
+              <button id="btn-inbox-deny" class="inbox-btn deny">&lt; DENY</button>
+              <button id="btn-inbox-approve" class="inbox-btn approve">APPROVE &gt;</button>
+            </div>
+
+            <button id="btn-inbox-start" class="btn-buy" style="margin-top: 50px;">START SHIFT</button>
           </div>
         </div>
       </div>
     </div>
+  </div>
   </div>
 
   <script src="src/dialogue_system.js"></script>

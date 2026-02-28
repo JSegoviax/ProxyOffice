@@ -30,60 +30,6 @@ body {
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
 }
 
-#scene-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-    background-size: cover;
-    background-position: center;
-}
-
-#ui-layer {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 10;
-    pointer-events: none;
-    /* Let clicks pass through to the scene by default */
-}
-
-.interactable {
-    position: absolute;
-    pointer-events: auto;
-    /* Re-enable clicks for interactables */
-    cursor: pointer;
-    transition: filter 0.2s;
-    object-fit: contain;
-}
-
-.interactable:hover {
-    filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
-}
-
-div.interactable:hover {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px dashed rgba(255, 255, 255, 0.5);
-}
-
-#dialogue-box {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background: rgba(0, 0, 0, 0.95);
-    border-bottom: 2px solid #fff;
-    padding: 20px;
-    color: white;
-    pointer-events: auto;
-    box-sizing: border-box;
-    z-index: 2000;
-}
-
 #dialogue-text {
     font-size: 24px;
     margin-bottom: 15px;
@@ -431,22 +377,6 @@ div.interactable:hover {
     color: #000;
 }
 
-#inventory-bar {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-    display: flex;
-    gap: 10px;
-    padding: 10px;
-    background: rgba(0, 0, 0, 0.7);
-    border: 1px solid #555;
-    border-radius: 5px;
-    pointer-events: auto;
-    min-height: 50px;
-    min-width: 50px;
-    z-index: 100;
-}
-
 .inventory-item {
     width: 50px;
     height: 50px;
@@ -464,20 +394,6 @@ div.interactable:hover {
 .inventory-item:hover {
     transform: scale(1.1);
     border-color: #fff;
-}
-
-/* Custom Tooltip */
-#custom-tooltip {
-    position: absolute;
-    background: #000;
-    border: 1px solid #fff;
-    color: #fff;
-    padding: 6px 12px;
-    pointer-events: none;
-    /* Crucial so it doesn't block clicks */
-    z-index: 1000;
-    width: max-content;
-    font-size: 16px;
 }
 
 /* =========================================
