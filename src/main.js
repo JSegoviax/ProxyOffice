@@ -5,6 +5,7 @@ const createWindow = () => {
   const mainWindow = new BrowserWindow({
     width: 1024,
     height: 768,
+    useContentSize: true, // This ensures the inner web page is exactly 1024x768
     minWidth: 800,
     minHeight: 600,
     webPreferences: {
