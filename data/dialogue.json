@@ -12,6 +12,13 @@
                     "next": "job_chat"
                 },
                 {
+                    "text": "[Use Post-it Notes] Stick 'Out of Order' sign on him.",
+                    "requires": "Post-it Notes",
+                    "consumes": "Post-it Notes",
+                    "next": "post_it_event",
+                    "event": "used_notes_on_carl"
+                },
+                {
                     "text": "Leave.",
                     "next": "END"
                 }
@@ -36,10 +43,19 @@
             ]
         },
         "post_it_event": {
-            "text": "Carlbot doesn't notice the sticky note on its hull. 'HAVE A PRODUCTIVE DIURNAL CYCLE.'",
+            "text": "You slap the note onto Carlbot's optical sensor. Carlbot beeps twice. 'NEW PROTOCOL ACCEPTED. OUT OF ORDER. INITIATING SHUTDOWN.'",
             "choices": [
                 {
                     "text": "(Leave him be)",
+                    "next": "END"
+                }
+            ]
+        },
+        "shut_down": {
+            "text": "Carlbot is powered down with an 'Out of Order' sticky note covering his single eye. He is no longer dispensing brown sludge.",
+            "choices": [
+                {
+                    "text": "Leave.",
                     "next": "END"
                 }
             ]
@@ -154,6 +170,20 @@
                 {
                     "text": "What about those Proxybots you needed to QA?",
                     "next": "qa_proxybot"
+                },
+                {
+                    "text": "Can I look in your drawer?",
+                    "next": "drawer_inquiry"
+                }
+            ]
+        },
+        "drawer_inquiry": {
+            "text": "'My drawer? Why? It's just old memos and... fine. Take the key. But if you find my red stapler, it's mine.'",
+            "choices": [
+                {
+                    "text": "Thanks.",
+                    "next": "END",
+                    "event": "give_key"
                 }
             ]
         },

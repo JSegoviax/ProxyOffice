@@ -57,15 +57,17 @@ body {
     pointer-events: auto;
     /* Re-enable clicks for interactables */
     cursor: pointer;
-    /* Temporary visual debug for hitboxes */
-    border: 2px dashed rgba(255, 255, 255, 0.3);
-    background: rgba(255, 255, 255, 0.1);
-    transition: background 0.2s;
+    transition: filter 0.2s;
+    object-fit: contain;
 }
 
 .interactable:hover {
-    background: rgba(255, 255, 255, 0.3);
-    border-style: solid;
+    filter: brightness(1.2) drop-shadow(0 0 5px rgba(255, 255, 255, 0.5));
+}
+
+div.interactable:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px dashed rgba(255, 255, 255, 0.5);
 }
 
 #dialogue-box {
@@ -106,6 +108,21 @@ body {
     background: #333;
     color: #fff;
     border-color: #fff;
+}
+
+/* Active Item System */
+.inventory-item.active {
+    border-color: #ffd700;
+    box-shadow: 0 0 10px rgba(255, 215, 0, 0.5);
+    background: #444;
+}
+
+#game-container.item-active {
+    cursor: crosshair;
+}
+
+#game-container.item-active .interactable {
+    cursor: crosshair;
 }
 
 #inventory-bar {

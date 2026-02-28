@@ -1,5 +1,16 @@
 // Core Game Engine Logic
 
+const itemDescriptions = {
+    "Party Hat": "A slightly crushed, aggressively festive paper hat. It smells like mandatory fun.",
+    "Post-it Notes": "A stack of yellow sticky notes. Useful for labeling things or minor acts of vandalism.",
+    "Small Key": "A generic small brass key. Probably opens a desk drawer.",
+    "Level 2 Proxy Card": "A slightly shinier ID badge. This should get me out of the main office."
+};
+
+const itemCombinations = {
+    // Example: "Item1": { "Item2": "NewItem" }
+};
+
 class GameEngine {
     constructor() {
         this.container = document.getElementById('game-container');
@@ -13,6 +24,8 @@ class GameEngine {
         this.baseHeight = 768;
         this.currentScene = null;
         this.inventory = [];
+        this.activeItem = null;
+        this.gameState = {};
         this.dialogueSystem = new DialogueSystem(this);
 
         this.init();
@@ -27,37 +40,83 @@ class GameEngine {
         // Test scene setup with Part 1 characters
         this.loadScene({
             name: "Office",
-            background: "#3a2e2b", // Temporary color until we have art
+            background: "assets/main_office_background.png",
             interactables: [
                 {
                     id: "carlbot",
-                    x: 200, y: 300, width: 150, height: 200,
                     name: "Carlbot",
-                    onInteract: () => this.dialogueSystem.startConversation('carlbot')
+                    image: "assets/carlbot.png",
+                    x: 234, y: 393, width: 156, height: 212,
+                    onInteract: (element) => {
+                        this.dialogueSystem.startConversation('carlbot', 'start');
+                    }
                 },
                 {
                     id: "hr_bot",
-                    x: 600, y: 400, width: 100, height: 200,
                     name: "HR Bot",
-                    onInteract: () => this.dialogueSystem.startConversation('hr_bot')
+                    image: "assets/hr_bot.png",
+                    x: 600, y: 550, width: 104, height: 161,
+                    onInteract: (element) => {
+                        this.dialogueSystem.startConversation('hr_bot', 'start');
+                    }
                 },
                 {
                     id: "jim",
-                    x: 800, y: 300, width: 120, height: 250,
                     name: "Jim",
-                    onInteract: () => this.dialogueSystem.startConversation('jim')
-                },
-                {
-                    id: "proxybot",
-                    x: 850, y: 550, width: 100, height: 150,
-                    name: "Proxybot",
-                    onInteract: () => this.dialogueSystem.startConversation('proxybot_qa')
+                    image: "assets/jim.png",
+                    x: 828, y: 440, width: 94, height: 191,
+                    onInteract: (element) => {
+                        this.dialogueSystem.startConversation('jim', 'start');
+                    }
                 },
                 {
                     id: "corporate_call",
-                    x: 450, y: 150, width: 200, height: 120,
                     name: "Corporate Monitor",
-                    onInteract: () => this.dialogueSystem.startConversation('corporate_call')
+                    image: "assets/corporate_monitor.png",
+                    x: 540, y: 150, width: 122, height: 181,
+                    onInteract: (element) => {
+                        this.dialogueSystem.startConversation('corporate_call', 'start');
+                    }
+                },
+                {
+                    id: "proxybot",
+                    name: "Proxybot QC",
+                    image: "assets/proxybot.png",
+                    x: 878, y: 700, width: 100, height: 151,
+                    onInteract: (element) => {
+                        this.dialogueSystem.startConversation('proxybot_qa', 'start');
+                    }
+                },
+                {
+                    id: "jims_locked_drawer",
+                    name: "Locked Drawer",
+                    x: 280, y: 700, width: 80, height: 50,
+                    onInteract: (element) => {
+                        if (this.gameState.drawerUnlocked) {
+                            if (this.gameState.takenCard) {
+                                this.showDialogue("The drawer is empty. Just some old pens and despair.");
+                            } else {
+                                this.showDialogue("You open the drawer and grab the Level 2 Proxy Card!");
+                                this.addItemToInventory("Level 2 Proxy Card");
+                                this.gameState.takenCard = true;
+                            }
+                        } else {
+                            this.showDialogue("It's a locked drawer. Looks like it needs a small key.");
+                        }
+                    },
+                    onItemUse: (item) => {
+                        if (item === "Small Key") {
+                            if (!this.gameState.drawerUnlocked) {
+                                this.showDialogue("You unlocked Jim's drawer!");
+                                this.gameState.drawerUnlocked = true;
+                                return true; // Used successfully
+                            } else {
+                                this.showDialogue("It's already unlocked.");
+                                return false;
+                            }
+                        }
+                        return false; // Not the right item
+                    }
                 }
             ]
         });
@@ -75,8 +134,61 @@ class GameEngine {
         this.inventory.forEach(item => {
             const div = document.createElement('div');
             div.className = 'inventory-item';
+            if (this.activeItem === item) {
+                div.classList.add('active');
+            }
             div.innerText = item;
             div.title = item;
+
+            // Left click: Select, Deselect, or Combine
+            const handleItemClick = (e) => {
+                if (e.type === 'touchstart') e.preventDefault();
+
+                if (this.activeItem === item) {
+                    // Deselect
+                    this.activeItem = null;
+                } else if (this.activeItem !== null && this.activeItem !== item) {
+                    // Attempt Combination
+                    const combo1 = itemCombinations[this.activeItem] && itemCombinations[this.activeItem][item];
+                    const combo2 = itemCombinations[item] && itemCombinations[item][this.activeItem];
+                    const result = combo1 || combo2;
+
+                    if (result) {
+                        this.inventory = this.inventory.filter(i => i !== this.activeItem && i !== item);
+                        this.activeItem = null;
+                        this.addItemToInventory(result);
+                        this.showDialogue(`You combined the items to create: ${result}.`);
+                    } else {
+                        this.showDialogue("Those items don't seem to fit together.");
+                    }
+                } else {
+                    // Select
+                    this.activeItem = item;
+                }
+
+                // Update CSS cursor on container
+                if (this.activeItem) {
+                    this.container.classList.add('item-active');
+                } else {
+                    this.container.classList.remove('item-active');
+                }
+
+                this.updateInventoryRender();
+            };
+
+            // Right click: Examine
+            const triggerExamine = (e) => {
+                e.preventDefault(); // Prevent default browser context menu
+                const desc = itemDescriptions[item] || "A mysterious object with no further description.";
+                this.showDialogue(desc);
+            };
+
+            div.addEventListener('click', handleItemClick);
+            div.addEventListener('contextmenu', triggerExamine);
+
+            // For mobile, maybe long-press for examine. For now, just map touch to select.
+            div.addEventListener('touchstart', handleItemClick, { passive: false });
+
             this.inventoryBar.appendChild(div);
         });
     }
@@ -103,25 +215,46 @@ class GameEngine {
             this.sceneLayer.style.backgroundImage = `url('${sceneData.background}')`;
         }
 
-        // Render interactable hitboxes
+        // Render interactable hitboxes/images
         if (sceneData.interactables) {
             sceneData.interactables.forEach(item => {
-                const div = document.createElement('div');
-                div.className = 'interactable';
-                div.style.left = `${item.x}px`;
-                div.style.top = `${item.y}px`;
-                div.style.width = `${item.width}px`;
-                div.style.height = `${item.height}px`;
-                div.title = item.name; // Tooltip on hover
+                const element = item.image ? document.createElement('img') : document.createElement('div');
+                element.className = 'interactable';
+                if (item.image) element.src = item.image;
 
+                element.style.left = `${item.x}px`;
+                element.style.top = `${item.y}px`;
+                element.style.width = `${item.width}px`;
+                element.style.height = `${item.height}px`;
+                element.title = item.name; // Tooltip
+                // Set up interaction
                 const triggerInteract = (e) => {
                     if (e.type === 'touchstart') e.preventDefault();
-                    if (item.onInteract) item.onInteract(div);
-                };
-                div.addEventListener('click', triggerInteract);
-                div.addEventListener('touchstart', triggerInteract, { passive: false });
 
-                this.sceneLayer.appendChild(div);
+                    if (this.activeItem) {
+                        if (item.onItemUse) {
+                            const used = item.onItemUse(this.activeItem);
+                            if (used) {
+                                // If the item was successfully used, we might consume it or just clear the active state depending on logic.
+                                // For now, let's assume the onItemUse handles consumption if necessary, we just deselect.
+                                this.activeItem = null;
+                                this.container.classList.remove('item-active');
+                                this.updateInventoryRender();
+                            } else {
+                                this.showDialogue(`I can't use the ${this.activeItem} on that.`);
+                            }
+                        } else {
+                            this.showDialogue(`I can't use the ${this.activeItem} on that.`);
+                        }
+                    } else if (item.onInteract) {
+                        item.onInteract(element);
+                    }
+                };
+
+                element.addEventListener('click', triggerInteract);
+                element.addEventListener('touchstart', triggerInteract, { passive: false });
+
+                this.sceneLayer.appendChild(element);
             });
         }
     }

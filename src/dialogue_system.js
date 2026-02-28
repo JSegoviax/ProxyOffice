@@ -48,10 +48,24 @@ class DialogueSystem {
         this.currentNodeId = nodeId;
 
         // Map the JSON choices to the format expected by the engine's showDialogue method
-        const choices = (nodeData.choices || []).map(choice => {
+        // Filter out choices that require an item the player doesn't have
+        const availableChoices = (nodeData.choices || []).filter(choice => {
+            if (choice.requires) {
+                return this.engine.inventory.includes(choice.requires);
+            }
+            return true;
+        });
+
+        const choices = availableChoices.map(choice => {
             return {
                 text: choice.text,
                 action: () => {
+                    // Check if this choice consumes an item (optional mechanic)
+                    if (choice.consumes && this.engine.inventory.includes(choice.consumes)) {
+                        this.engine.inventory = this.engine.inventory.filter(i => i !== choice.consumes);
+                        this.engine.updateInventoryRender();
+                    }
+
                     // Check if this choice triggers an event
                     if (choice.event) {
                         this.handleEvent(choice.event);
@@ -69,6 +83,10 @@ class DialogueSystem {
     handleEvent(eventName) {
         console.log("Dialogue Event Triggered:", eventName);
         switch (eventName) {
+            case 'used_notes_on_carl':
+                // Update Carlbot so he is permanently off
+                this.dialogueData.carlbot.start = this.dialogueData.carlbot.shut_down;
+                break;
             case 'give_hat':
                 this.engine.addItemToInventory("Party Hat");
                 // Update the NPC dialogue tree so they don't give it again
@@ -81,6 +99,13 @@ class DialogueSystem {
                 // Update Jim so he waits for you to use them
                 this.dialogueData.jim.start.choices = [
                     { text: "Have you put the note on Carl yet?", next: "waiting_for_car" }
+                ];
+                break;
+            case 'give_key':
+                this.engine.addItemToInventory("Small Key");
+                // Update Jim so he doesn't give the key again
+                this.dialogueData.jim.thanks_for_note.choices = [
+                    { text: "What about those Proxybots you needed to QA?", next: "qa_proxybot" }
                 ];
                 break;
             case 'qa_complete':
