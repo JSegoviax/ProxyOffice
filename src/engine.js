@@ -39,6 +39,9 @@ class GameEngine {
         this.handleResize();
         window.addEventListener('resize', () => this.handleResize());
 
+        // Prevent default context menu everywhere to make right-click interactions smooth
+        document.addEventListener('contextmenu', event => event.preventDefault());
+
         await this.dialogueSystem.loadDialogue();
 
         // Test scene setup with Part 1 characters
@@ -260,17 +263,13 @@ class GameEngine {
                 // Custom tooltip implementation
                 const triggerHover = (e) => {
                     this.tooltip.classList.remove('hidden');
-                    let actionText = item.actionText ? `[ Left Click : ${item.actionText} ]` : "[ Left Click : Interact ]";
+                    let actionText = item.actionText || "Interact";
 
                     if (this.activeItem) {
-                        actionText = `[ Left Click : Use ${this.activeItem} ]`;
+                        actionText = `Use ${this.activeItem}`;
                     }
 
-                    this.tooltip.innerHTML = `
-                        <div class="tooltip-name">${item.name}</div>
-                        <div class="tooltip-desc">${item.description || "A mysterious object."}</div>
-                        <div class="tooltip-action">${actionText}</div>
-                    `;
+                    this.tooltip.innerHTML = `[ Look | ${actionText} ]`;
                 };
 
                 const triggerMove = (e) => {
@@ -295,8 +294,16 @@ class GameEngine {
                 element.addEventListener('mousemove', triggerMove);
                 element.addEventListener('mouseleave', triggerLeave);
 
-                // Set up interaction
+                // Left click -> Look
+                const triggerLook = (e) => {
+                    if (e.type === 'touchstart') return; // Mobile touch maps to interact directly below
+                    const desc = item.description || "You see nothing special.";
+                    this.showDialogue(desc);
+                };
+
+                // Right click -> Interact or Use Item
                 const triggerInteract = (e) => {
+                    e.preventDefault();
                     if (e.type === 'touchstart') e.preventDefault();
 
                     if (this.activeItem) {
@@ -319,7 +326,8 @@ class GameEngine {
                     }
                 };
 
-                element.addEventListener('click', triggerInteract);
+                element.addEventListener('click', triggerLook);
+                element.addEventListener('contextmenu', triggerInteract);
                 element.addEventListener('touchstart', triggerInteract, { passive: false });
 
                 this.sceneLayer.appendChild(element);
