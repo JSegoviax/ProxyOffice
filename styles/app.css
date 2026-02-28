@@ -81,7 +81,7 @@ div.interactable:hover {
     color: white;
     pointer-events: auto;
     box-sizing: border-box;
-    z-index: 100;
+    z-index: 2000;
 }
 
 #dialogue-text {
