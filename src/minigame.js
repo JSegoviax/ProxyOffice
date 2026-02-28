@@ -12,7 +12,8 @@ class MinigameSystem {
         // App Windows
         this.windows = {
             work: document.getElementById('app-window-work'),
-            store: document.getElementById('app-window-store')
+            store: document.getElementById('app-window-store'),
+            inbox: document.getElementById('app-window-inbox')
         };
 
         // DOM Elements - Synergy Alignment (Work App)
@@ -20,14 +21,37 @@ class MinigameSystem {
         this.clusterArea = document.getElementById('data-cluster-area');
         this.bins = document.querySelectorAll('.bin');
 
+        // DOM Elements - Inbox Triage
+        this.inboxTimerEl = document.getElementById('inbox-timer');
+        this.inboxQuotaEl = document.getElementById('inbox-quota');
+        this.inboxPolicyEl = document.getElementById('inbox-active-policy');
+        this.inboxEmailCard = document.getElementById('inbox-email-card');
+        this.inboxControls = document.getElementById('inbox-controls');
+        this.inboxStartBtn = document.getElementById('btn-inbox-start');
+        this.inboxDenyBtn = document.getElementById('btn-inbox-deny');
+        this.inboxApproveBtn = document.getElementById('btn-inbox-approve');
+        this.inboxSender = document.getElementById('email-sender');
+        this.inboxSubject = document.getElementById('email-subject');
+        this.inboxBody = document.getElementById('email-body');
+
         // Store Elements
         this.storeContainer = document.getElementById('store-items-container');
 
-        // Game State
+        // Game State - Shared
         this.isActive = false; // Is OS booted
+
+        // Game State - Synergy Alignment
         this.targetScore = 12; // Blocks needed
         this.currentScore = 0;
         this.dataTypes = ['compliance', 'optimization', 'disruption', 'redundancy'];
+
+        // Game State - Inbox Triage
+        this.inboxTimer = 60;
+        this.inboxTimerInterval = null;
+        this.inboxQuota = 0;
+        this.inboxTargetQuota = 10;
+        this.currentInboxPolicy = null;
+        this.currentEmail = null;
 
         this.setupEventListeners();
     }
@@ -48,6 +72,11 @@ class MinigameSystem {
                 this.closeApp(btn.dataset.app);
             });
         });
+
+        // Inbox Triage Setup
+        this.inboxStartBtn.addEventListener('click', () => this.beginInboxShift());
+        this.inboxDenyBtn.addEventListener('click', () => this.handleInboxSwipe('deny'));
+        this.inboxApproveBtn.addEventListener('click', () => this.handleInboxSwipe('approve'));
 
         this.bins.forEach(bin => {
             bin.addEventListener('dragover', (e) => {
@@ -113,6 +142,8 @@ class MinigameSystem {
             this.startSynergyAlignment();
         } else if (appName === 'store') {
             this.renderStore();
+        } else if (appName === 'inbox') {
+            this.startInboxTriageApp();
         }
     }
 
@@ -121,6 +152,8 @@ class MinigameSystem {
             this.windows[appName].classList.add('hidden');
             if (appName === 'work') {
                 this.clusterArea.innerHTML = ''; // Clear blocks if closed early
+            } else if (appName === 'inbox') {
+                this.stopInboxShift(); // Cleanup timer
             }
         }
     }
@@ -278,6 +311,143 @@ class MinigameSystem {
 
             // Re-render store to update button disabilities
             this.renderStore();
+        }
+    }
+
+    // --- INBOX TRIAGE APP ---
+    startInboxTriageApp() {
+        this.inboxStartBtn.classList.remove('hidden');
+        this.inboxEmailCard.classList.add('hidden');
+        this.inboxControls.classList.add('hidden');
+        this.inboxTimerEl.innerText = '60';
+        this.inboxQuotaEl.innerText = '0/10';
+        this.inboxPolicyEl.innerText = 'AWAITING SHIFT START...';
+    }
+
+    beginInboxShift() {
+        this.inboxStartBtn.classList.add('hidden');
+        this.inboxEmailCard.classList.remove('hidden');
+        this.inboxControls.classList.remove('hidden');
+
+        this.inboxTimer = 60;
+        this.inboxQuota = 0;
+        this.updateInboxUI();
+
+        this.setRandomInboxPolicy();
+        this.generateInboxEmail();
+
+        clearInterval(this.inboxTimerInterval);
+        this.inboxTimerInterval = setInterval(() => {
+            this.inboxTimer--;
+            this.inboxTimerEl.innerText = this.inboxTimer;
+            if (this.inboxTimer <= 0) {
+                this.endInboxShift(false);
+            }
+            // Add chaos: Shift policy every 15 seconds
+            if (this.inboxTimer > 0 && this.inboxTimer % 15 === 0) {
+                this.setRandomInboxPolicy();
+                // Visual feedback of policy shift
+                this.inboxPolicyEl.style.color = '#ff3333';
+                setTimeout(() => this.inboxPolicyEl.style.color = '#000', 500);
+            }
+        }, 1000);
+    }
+
+    stopInboxShift() {
+        clearInterval(this.inboxTimerInterval);
+        this.inboxStartBtn.classList.remove('hidden');
+        this.inboxEmailCard.classList.add('hidden');
+        this.inboxControls.classList.add('hidden');
+    }
+
+    setRandomInboxPolicy() {
+        const policies = [
+            { id: 'deny_hr', text: 'DENY ALL EMAILS FROM HR', test: (e) => e.sender.includes('HR') ? 'deny' : 'approve' },
+            { id: 'approve_urgent', text: 'APPROVE ANY "URGENT" SUBJECTS', test: (e) => e.subject.includes('URGENT') ? 'approve' : 'deny' },
+            { id: 'deny_expense', text: 'DENY ALL EXPENSE REPORTS', test: (e) => e.subject.includes('Expense') ? 'deny' : 'approve' },
+            { id: 'approve_all', text: 'OVERSIGHT IS DOWN. APPROVE EVERYTHING.', test: (e) => 'approve' }
+        ];
+        this.currentInboxPolicy = policies[Math.floor(Math.random() * policies.length)];
+        this.inboxPolicyEl.innerText = this.currentInboxPolicy.text;
+    }
+
+    generateInboxEmail() {
+        const senders = ['HR@proxycorp.local', 'Finance@proxycorp.local', 'IT_Support@proxycorp.local', 'Exec_Office@proxycorp.local', 'Gary@proxycorp.local'];
+        const subjects = ['URGENT: Required Compliance Training', 'Expense Report: Q3 Staples', 'Team Building Pizza Party', 'URGENT: Server Down', 'Can I expense this plant?'];
+        const bodies = ['Please review attached document.', 'Requires immediate sign-off.', 'As per our last email...', 'This is blocking my core workflow.'];
+
+        this.currentEmail = {
+            sender: senders[Math.floor(Math.random() * senders.length)],
+            subject: subjects[Math.floor(Math.random() * subjects.length)],
+            body: bodies[Math.floor(Math.random() * bodies.length)]
+        };
+
+        this.inboxSender.innerText = `From: ${this.currentEmail.sender}`;
+        this.inboxSubject.innerText = `Subject: ${this.currentEmail.subject}`;
+        this.inboxBody.innerText = this.currentEmail.body;
+
+        // Reset card styling
+        this.inboxEmailCard.classList.remove('swipe-left', 'swipe-right');
+        this.inboxEmailCard.style.transform = '';
+        this.inboxEmailCard.style.opacity = '1';
+    }
+
+    handleInboxSwipe(action) {
+        // Evaluate against policy
+        const expectedAction = this.currentInboxPolicy.test(this.currentEmail);
+
+        // Animate Swipe
+        if (action === 'deny') {
+            this.inboxEmailCard.classList.add('swipe-left');
+        } else {
+            this.inboxEmailCard.classList.add('swipe-right');
+        }
+
+        setTimeout(() => {
+            if (action === expectedAction) {
+                // Correct
+                this.inboxQuota++;
+                this.updateInboxUI();
+                if (this.inboxQuota >= this.inboxTargetQuota) {
+                    this.endInboxShift(true);
+                } else {
+                    this.generateInboxEmail();
+                }
+            } else {
+                // Incorrect - Time penalty!
+                this.inboxTimer -= 5;
+                if (this.inboxTimer < 0) this.inboxTimer = 0;
+                this.updateInboxUI();
+
+                // Screen flash
+                this.windows.inbox.style.borderColor = 'red';
+                setTimeout(() => this.windows.inbox.style.borderColor = '#4af626', 300);
+
+                if (this.inboxTimer <= 0) {
+                    this.endInboxShift(false);
+                } else {
+                    this.generateInboxEmail();
+                }
+            }
+        }, 200); // 200ms matches css transition
+    }
+
+    updateInboxUI() {
+        this.inboxTimerEl.innerText = this.inboxTimer;
+        this.inboxQuotaEl.innerText = `${this.inboxQuota}/${this.inboxTargetQuota}`;
+    }
+
+    endInboxShift(success) {
+        this.stopInboxShift();
+        if (success) {
+            this.inboxPolicyEl.innerText = 'SHIFT COMPLETE. QUOTA MET. +250 SP.';
+            this.inboxPolicyEl.style.color = '#000';
+            this.engine.addSP(250);
+            this.updateSPUI();
+            setTimeout(() => this.closeApp('inbox'), 3000);
+        } else {
+            this.inboxPolicyEl.innerText = 'SHIFT FAILED. INADEQUATE SYNERGY.';
+            this.inboxPolicyEl.style.color = '#ff3333';
         }
     }
 }

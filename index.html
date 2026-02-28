@@ -28,6 +28,10 @@
             <div class="os-icon-img" style="background-color: #4af626;"></div>
             <div class="os-icon-text">Work.exe</div>
           </div>
+          <div class="os-icon" data-app="inbox">
+            <div class="os-icon-img" style="background-color: #00ffff; border-radius: 5px;"></div>
+            <div class="os-icon-text">Inbox Triage</div>
+          </div>
           <div class="os-icon" data-app="store">
             <div class="os-icon-img" style="background-color: #ffd700;"></div>
             <div class="os-icon-text">Company Store</div>
@@ -68,6 +72,39 @@
               <div id="store-items-container">
                 <!-- Items injected dynamically -->
               </div>
+            </div>
+          </div>
+
+          <!-- Window: Inbox Triage -->
+          <div id="app-window-inbox" class="os-window hidden">
+            <div class="os-window-header">
+              <span>Inbox Triage v1.02</span>
+              <button class="os-btn-close" data-app="inbox">X</button>
+            </div>
+            <div id="inbox-stats-bar">
+              <span>Time: <span id="inbox-timer">30</span>s</span>
+              <span>Quota: <span id="inbox-quota">0/10</span></span>
+            </div>
+            <div id="inbox-policy-banner">
+              CURRENT POLICY: <span id="inbox-active-policy">AWAITING CONNECTION...</span>
+            </div>
+            <div class="os-window-content"
+              style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+
+              <div id="inbox-email-card" class="hidden">
+                <div id="email-sender">From: HR@proxycorp.local</div>
+                <div id="email-subject">Subject: Mandatory Fun Hour</div>
+                <hr>
+                <div id="email-body">Please ensure attendance at the 4PM team building exercise. Absences will be logged
+                  against your KPI.</div>
+              </div>
+
+              <div id="inbox-controls" class="hidden">
+                <button id="btn-inbox-deny" class="inbox-btn deny">&lt; DENY</button>
+                <button id="btn-inbox-approve" class="inbox-btn approve">APPROVE &gt;</button>
+              </div>
+
+              <button id="btn-inbox-start" class="btn-buy" style="margin-top: 50px;">START SHIFT</button>
             </div>
           </div>
         </div>
