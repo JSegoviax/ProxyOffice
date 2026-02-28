@@ -1,7 +1,7 @@
 {
     "carlbot": {
         "start": {
-            "text": "Carlbot whirs loudly. A brown, viscous liquid drips from its spout. 'INITIATING GREETING SEQUENCE. HELLO.'",
+            "text": "Carlbot whirs loudly. A brown, viscous liquid drips from its spout onto the floor. 'INITIATING GREETING SEQUENCE. HELLO JIM. CARL SAYS HI.'",
             "choices": [
                 {
                     "text": "Is that coffee?",
@@ -25,7 +25,7 @@
             ]
         },
         "coffee_chat": {
-            "text": "'AFFIRMATIVE. IT IS 98% CAFFEINE AND 2% UNDESIRABLE PARTICULATE MATTER. WOULD YOU LIKE A CUP?'",
+            "text": "'AFFIRMATIVE. IT IS 98% CAFFEINE AND 2% UNDESIRABLE PARTICULATE MATTER. WOULD YOU LIKE TO CONSUME THE SLUDGE?'",
             "choices": [
                 {
                     "text": "No thanks, I choose life.",
@@ -34,7 +34,7 @@
             ]
         },
         "job_chat": {
-            "text": "'I DISPENSE BEVERAGES. I EXIST TO SERVE. MY SENSORS INDICATE A 100% DISSATISFACTION RATE AMONG CARBON-BASED EMPLOYEES.'",
+            "text": "'I PERFORM MEATWORK SO CARL DOES NOT HAVE TO. CURRENT DIRECTIVE: DISPENSE BEVERAGE. MORALE IS OPTIMAL.'",
             "choices": [
                 {
                     "text": "That's depressing.",
@@ -43,7 +43,7 @@
             ]
         },
         "post_it_event": {
-            "text": "You slap the note onto Carlbot's optical sensor. Carlbot beeps twice. 'NEW PROTOCOL ACCEPTED. OUT OF ORDER. INITIATING SHUTDOWN.'",
+            "text": "You slap the note onto Carlbot's optical sensor. Carlbot beeps twice. 'NEW PROTOCOL ACCEPTED. OUT OF ORDER. INITIATING SHUTDOWN. CARL WILL BE DISAPPOINTED.'",
             "choices": [
                 {
                     "text": "(Leave him be)",
@@ -52,7 +52,7 @@
             ]
         },
         "shut_down": {
-            "text": "Carlbot is powered down with an 'Out of Order' sticky note covering his single eye. He is no longer dispensing brown sludge.",
+            "text": "Carlbot is powered down with an 'Out of Order' sticky note covering his single eye. He is no longer dispensing the highly corrosive brown sludge.",
             "choices": [
                 {
                     "text": "Leave.",
@@ -63,7 +63,7 @@
     },
     "hr_bot": {
         "start": {
-            "text": "'HAPPY ANNIVERSARY OF YOUR INCEPTION DATE!' The HR Bot extends a mechanical arm holding a slightly crushed party hat.",
+            "text": "'HAPPY ANNIVERSARY OF YOUR INCEPTION DATE, JIM!' SallyBot extends a mechanical arm holding a slightly crushed party hat. 'MANDATORY FUN QUOTA STANDS AT 14%.'",
             "choices": [
                 {
                     "text": "It's not my birthday.",
@@ -77,7 +77,7 @@
             ]
         },
         "not_birthday": {
-            "text": "'ERROR. THE CALENDAR INDICATES IT IS EMPLOYEE #8492'S BIRTHDAY. YOU MUST CELEBRATE.'",
+            "text": "'ERROR. THE CALENDAR INDICATES IT IS EMPLOYEE #8492'S BIRTHDAY. MY DIRECTIVE IS TO FORCE CELEBRATION UNTIL MORALE IMPROVES.'",
             "choices": [
                 {
                     "text": "(Sigh) Fine. I'll take the hat.",
@@ -91,7 +91,7 @@
             ]
         },
         "take_hat": {
-            "text": "'MANDATORY FUN QUOTA MET. RETURNING TO STANDBY MODE.'",
+            "text": "'EXCELLENT. MANDATORY FUN QUOTA MET. RETURNING TO STANDBY MODE. PLEASE DO NOT WEEP IN THE CUBICLES.'",
             "choices": [
                 {
                     "text": "Thanks?",
@@ -100,7 +100,7 @@
             ]
         },
         "already_has_hat": {
-            "text": "'YOU HAVE ALREADY REACHED YOUR MAXIMUM ALLOTMENT OF JOY FOR THIS FISCAL QUARTER.'",
+            "text": "'YOU HAVE ALREADY REACHED YOUR MAXIMUM ALLOTMENT OF JOY FOR THIS FISCAL QUARTER. RETURN TO YOUR ASSIGNED POD.'",
             "choices": [
                 {
                     "text": "Right. Back to work.",
@@ -111,7 +111,7 @@
     },
     "gary": {
         "start": {
-            "text": "Gary is frantically typing on two keyboards at once. 'Don't talk to me, Jim. That walking rust-bucket Carlbot gave me decaf by mistake. I am running purely on raw anxiety.'",
+            "text": "Gary is frantically typing on two keyboards at once. 'Don't talk to me, Jim. That walking rust-bucket Carlbot gave me decaf by mistake. I am running purely on raw, unfiltered terror of the Corporate Monitor.'",
             "choices": [
                 {
                     "text": "Calm down, Gary.",
@@ -128,7 +128,7 @@
             ]
         },
         "gary_rant": {
-            "text": "'CALM DOWN?! I have to QA these useless Proxybots before corporate calls in 5 minutes!' He points to an unplugged robot in the corner.",
+            "text": "'CALM DOWN?! I have to QA these useless Proxybots before corporate calls in 5 minutes! I haven't slept since they implemented RTO!' He points to an unplugged robot in the corner.",
             "choices": [
                 {
                     "text": "I can help with that.",
@@ -137,7 +137,7 @@
             ]
         },
         "help_gary": {
-            "text": "'Yeah, actually. Take these post-it notes. Go stick an \"OUT OF ORDER\" sign on Carlbot's face so nobody else gets poisoned.'",
+            "text": "'Yeah, actually. Take these post-it notes. Go stick an \"OUT OF ORDER\" sign on Carlbot's face so nobody else gets poisoned by that sludge.'",
             "choices": [
                 {
                     "text": "Sure.",
@@ -147,7 +147,7 @@
             ]
         },
         "take_notes": {
-            "text": "Gary shoves a pad of sticky notes into your hands. 'Do it. Now. Before Jerry from accounting drinks from that thing.'",
+            "text": "Gary shoves a pad of sticky notes into your hands. 'Do it. Now. Before Jerry from accounting drinks from that thing and dissolves.'",
             "choices": [
                 {
                     "text": "On it.",
@@ -156,7 +156,7 @@
             ]
         },
         "waiting_for_car": {
-            "text": "'Well? Did you put the note on Carlbot yet? Do I need to write a ticket for this?'",
+            "text": "'Well? Did you put the note on Carlbot yet? Do I need to write a Jira ticket for this?'",
             "choices": [
                 {
                     "text": "Working on it.",
@@ -165,7 +165,7 @@
             ]
         },
         "thanks_for_note": {
-            "text": "'Finally. Now maybe corporate will actually fund a replacement instead of another ping-pong table.'",
+            "text": "'Finally. Now maybe corporate will actually fund a replacement instead of another mandatory mindfulness seminar.'",
             "choices": [
                 {
                     "text": "What about those Proxybots you needed to QA?",
@@ -178,7 +178,7 @@
             ]
         },
         "drawer_inquiry": {
-            "text": "'My drawer? Why? It's just old memos and... fine. Take the key. But if you find my red stapler, it's mine.'",
+            "text": "'My drawer? Why? It's just old memos and... fine. Take the key. But if you find my will to live, it's mine.'",
             "choices": [
                 {
                     "text": "Thanks.",
@@ -199,7 +199,7 @@
     },
     "proxybot_qa": {
         "start": {
-            "text": "The Proxybot sits silently in the corner. A small screen on its chest displays a blinking QA form.",
+            "text": "The Proxybot sits silently in the corner. A small screen on its chest displays a blinking QA form. It smells faintly of ozone and compliance.",
             "choices": [
                 {
                     "text": "Examine the bot.",
@@ -226,7 +226,7 @@
             ]
         },
         "qa_fail": {
-            "text": "The bot beeps aggressively. 'ERROR. INSUFFICIENT CORPORATE SYNERGY DETECTED. PREPARING TERMINATION REPORT FOR JIM.'",
+            "text": "The bot beeps aggressively. 'ERROR. INSUFFICIENT CORPORATE SYNERGY DETECTED. PREPARING TERMINATION REPORT FOR JIM. PREPARE FOR DEMOTION.'",
             "choices": [
                 {
                     "text": "Wait, no! I meant yes!",
@@ -235,7 +235,7 @@
             ]
         },
         "qa_pass": {
-            "text": "The screen turns green. 'SYNERGY CONFIRMED. THANK YOU FOR ENGAGING WITH PROXYCORP OUTSOURCING SOLUTIONS.'",
+            "text": "The screen turns green. 'SYNERGY CONFIRMED. THANK YOU FOR ENGAGING WITH PROXYCORP OUTSOURCING SOLUTIONS. WE VALUE YOUR MEATWORK.'",
             "choices": [
                 {
                     "text": "Glad that's over.",
@@ -244,7 +244,7 @@
             ]
         },
         "already_qa": {
-            "text": "The screen displays a green checkmark. 'UNIT READY FOR DEPLOYMENT.'",
+            "text": "The screen displays a green checkmark. 'UNIT READY FOR DEPLOYMENT. MAY SYNERGY BE WITH YOU.'",
             "choices": [
                 {
                     "text": "Let Gary know.",
@@ -268,7 +268,7 @@
             ]
         },
         "hello_corporate": {
-            "text": "'...we need to circle back on the deliverables. The optical trajectory is sub-optimal. Who is on the line?'",
+            "text": "'...we need to circle back on the deliverables. The optical trajectory is sub-optimal. Who is on the line? Is this meat or proxy?'",
             "choices": [
                 {
                     "text": "It's just me.",
@@ -281,7 +281,7 @@
             ]
         },
         "listen": {
-            "text": "'...synergistic optimization of the offshore resources. If we pivot the bandwidth, we can leverage the core competencies...'",
+            "text": "'...synergistic optimization of the offshore resources. If we pivot the bandwidth, we can leverage the core competencies to maximize human capital...'",
             "choices": [
                 {
                     "text": "(Hang up)",
@@ -290,7 +290,7 @@
             ]
         },
         "ignore": {
-            "text": "'Please ensure your action items are synergized before the hard stop at 5. We are taking this offline.' The screen goes black.",
+            "text": "'Please ensure your action items are synergized before the hard stop at 5. We are taking this offline. Do not fail us.' The screen goes black.",
             "choices": [
                 {
                     "text": "Whatever you say.",
@@ -299,7 +299,7 @@
             ]
         },
         "proxy_update": {
-            "text": "'Excellent. Proxybot deployment is critical for Q3 alignment. Proceed with bandwidth optimization.' The screen goes black.",
+            "text": "'Excellent. Proxybot deployment is critical for Q3 alignment. Proceed with bandwidth optimization. Failure is not an option.' The screen goes black.",
             "choices": [
                 {
                     "text": "I need a coffee.",
