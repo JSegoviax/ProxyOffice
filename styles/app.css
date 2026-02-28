@@ -140,6 +140,7 @@ div.interactable:hover {
     justify-content: center;
     align-items: center;
     z-index: 200;
+    pointer-events: auto;
 }
 
 #minigame-overlay.hidden {
