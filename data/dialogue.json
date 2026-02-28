@@ -109,17 +109,17 @@
             ]
         }
     },
-    "jim": {
+    "gary": {
         "start": {
-            "text": "Jim is frantically typing on two keyboards at once. 'Don't talk to me. That walking rust-bucket Carlbot gave me decaf by mistake. I am running purely on raw anxiety.'",
+            "text": "Gary is frantically typing on two keyboards at once. 'Don't talk to me, Jim. That walking rust-bucket Carlbot gave me decaf by mistake. I am running purely on raw anxiety.'",
             "choices": [
                 {
-                    "text": "Calm down, Jim.",
-                    "next": "jim_rant"
+                    "text": "Calm down, Gary.",
+                    "next": "gary_rant"
                 },
                 {
                     "text": "Anything I can do to help?",
-                    "next": "help_jim"
+                    "next": "help_gary"
                 },
                 {
                     "text": "Leave him alone.",
@@ -127,16 +127,16 @@
                 }
             ]
         },
-        "jim_rant": {
+        "gary_rant": {
             "text": "'CALM DOWN?! I have to QA these useless Proxybots before corporate calls in 5 minutes!' He points to an unplugged robot in the corner.",
             "choices": [
                 {
                     "text": "I can help with that.",
-                    "next": "help_jim"
+                    "next": "help_gary"
                 }
             ]
         },
-        "help_jim": {
+        "help_gary": {
             "text": "'Yeah, actually. Take these post-it notes. Go stick an \"OUT OF ORDER\" sign on Carlbot's face so nobody else gets poisoned.'",
             "choices": [
                 {
@@ -147,7 +147,7 @@
             ]
         },
         "take_notes": {
-            "text": "Jim shoves a pad of sticky notes into your hands. 'Do it. Now. Before Jerry from accounting drinks from that thing.'",
+            "text": "Gary shoves a pad of sticky notes into your hands. 'Do it. Now. Before Jerry from accounting drinks from that thing.'",
             "choices": [
                 {
                     "text": "On it.",
@@ -247,7 +247,7 @@
             "text": "The screen displays a green checkmark. 'UNIT READY FOR DEPLOYMENT.'",
             "choices": [
                 {
-                    "text": "Let Jim know.",
+                    "text": "Let Gary know.",
                     "next": "END"
                 }
             ]
@@ -275,7 +275,7 @@
                     "next": "ignore"
                 },
                 {
-                    "text": "Jim is getting the Proxybots ready.",
+                    "text": "Gary is getting the Proxybots ready.",
                     "next": "proxy_update"
                 }
             ]

@@ -96,15 +96,15 @@ class DialogueSystem {
                 break;
             case 'give_notes':
                 this.engine.addItemToInventory("Post-it Notes");
-                // Update Jim so he waits for you to use them
-                this.dialogueData.jim.start.choices = [
+                // Update Gary so he waits for you to use them
+                this.dialogueData.gary.start.choices = [
                     { text: "Have you put the note on Carl yet?", next: "waiting_for_car" }
                 ];
                 break;
             case 'give_key':
                 this.engine.addItemToInventory("Small Key");
-                // Update Jim so he doesn't give the key again
-                this.dialogueData.jim.thanks_for_note.choices = [
+                // Update Gary so he doesn't give the key again
+                this.dialogueData.gary.thanks_for_note.choices = [
                     { text: "What about those Proxybots you needed to QA?", next: "qa_proxybot" }
                 ];
                 break;
@@ -117,10 +117,10 @@ class DialogueSystem {
                     ]
                 };
 
-                // If Jim is waiting for QA, update his dialogue
-                if (this.dialogueData.jim.start.choices[0].next === 'qa_proxybot' || this.dialogueData.jim.start.choices[0].next === "waiting_for_car") {
-                    this.dialogueData.jim.start.text = "Jim is staring blankly at his monitor. 'Thanks for testing the bot. I might actually get to go home today.'";
-                    this.dialogueData.jim.start.choices = [
+                // If Gary is waiting for QA, update his dialogue
+                if (this.dialogueData.gary.start.choices[0].next === 'qa_proxybot' || this.dialogueData.gary.start.choices[0].next === "waiting_for_car") {
+                    this.dialogueData.gary.start.text = "Gary is staring blankly at his monitor. 'Thanks for testing the bot. I might actually get to go home today.'";
+                    this.dialogueData.gary.start.choices = [
                         { text: "No problem.", next: "END" }
                     ];
                 }

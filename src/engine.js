@@ -64,12 +64,12 @@ class GameEngine {
                     }
                 },
                 {
-                    id: "jim",
-                    name: "Jim",
-                    image: "assets/jim.png",
+                    id: "gary",
+                    name: "Gary",
+                    image: "assets/gary.png",
                     x: 828, y: 440, width: 94, height: 191,
                     onInteract: (element) => {
-                        this.dialogueSystem.startConversation('jim', 'start');
+                        this.dialogueSystem.startConversation('gary', 'start');
                     }
                 },
                 {
@@ -110,7 +110,7 @@ class GameEngine {
                     onItemUse: (item) => {
                         if (item === "Small Key") {
                             if (!this.gameState.drawerUnlocked) {
-                                this.showDialogue("You unlocked Jim's drawer!");
+                                this.showDialogue("You unlocked Gary's drawer!");
                                 this.gameState.drawerUnlocked = true;
                                 return true; // Used successfully
                             } else {
