@@ -20,38 +20,56 @@
       <div id="custom-tooltip" class="hidden"></div>
       <div id="inventory-bar"></div>
 
-      <!-- Minigame Overlay (Hidden by default) -->
-      <div id="minigame-overlay" class="hidden">
-        <div id="minigame-crt-effect">
-          <div class="header">SYSTEM: ProxyCorp Synergy Alignment v2.1</div>
-          <div id="minigame-status">AWAITING INPUT...</div>
-
-          <div id="data-cluster-area">
-            <!-- Data Blocks injected here -->
+      <!-- ProxyOS Desktop Overlay (Replaces singular minigame) -->
+      <div id="os-overlay" class="hidden">
+        <div id="os-desktop">
+          <!-- App Icons -->
+          <div class="os-icon" data-app="work">
+            <div class="os-icon-img" style="background-color: #4af626;"></div>
+            <div class="os-icon-text">Work.exe</div>
+          </div>
+          <div class="os-icon" data-app="store">
+            <div class="os-icon-img" style="background-color: #ffd700;"></div>
+            <div class="os-icon-text">Company Store</div>
           </div>
 
-          <div class="bins-container">
-            <div class="bin compliance-bin" data-type="compliance">
-              <span>COMPLIANCE</span>
+          <!-- Taskbar -->
+          <div id="os-taskbar">
+            <div id="os-start-button">ProxyOS v95</div>
+            <div id="os-sp-counter">SP: 0</div>
+            <button id="os-logoff">LOG OFF</button>
+          </div>
+
+          <!-- Window: Synergy Alignment (Work) -->
+          <div id="app-window-work" class="os-window hidden">
+            <div class="os-window-header">
+              <span>Synergy Alignment System v2.1</span>
+              <button class="os-btn-close" data-app="work">X</button>
             </div>
-            <div class="bin optimization-bin" data-type="optimization">
-              <span>OPTIMIZATION</span>
-            </div>
-            <div class="bin disruption-bin" data-type="disruption">
-              <span>DISRUPTION</span>
-            </div>
-            <div class="bin redundancy-bin" data-type="redundancy">
-              <span>REDUNDANCY</span>
+            <div class="os-window-content">
+              <div id="minigame-status">AWAITING INPUT... FILE: PROXY-01</div>
+              <div id="data-cluster-area"></div>
+              <div id="bin-container">
+                <div class="bin" data-type="compliance">COMPLIANCE</div>
+                <div class="bin" data-type="optimization">OPTIMIZATION</div>
+                <div class="bin" data-type="disruption">DISRUPTION</div>
+                <div class="bin" data-type="redundancy">REDUNDANCY</div>
+              </div>
             </div>
           </div>
 
-          <div class="progress-wrapper">
-            <div id="minigame-progress-bar">
-              <div id="minigame-progress-fill"></div>
+          <!-- Window: Company Store -->
+          <div id="app-window-store" class="os-window hidden">
+            <div class="os-window-header">
+              <span>Company Store - Spend Synergy Points</span>
+              <button class="os-btn-close" data-app="store">X</button>
+            </div>
+            <div class="os-window-content">
+              <div id="store-items-container">
+                <!-- Items injected dynamically -->
+              </div>
             </div>
           </div>
-
-          <button id="minigame-logoff">LOG OFF</button>
         </div>
       </div>
     </div>

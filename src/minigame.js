@@ -2,17 +2,30 @@ class MinigameSystem {
     constructor(engine) {
         this.engine = engine;
 
-        // DOM Elements
-        this.overlay = document.getElementById('minigame-overlay');
+        // DOM Elements - OS Desktop
+        this.osOverlay = document.getElementById('os-overlay');
+        this.logoffBtn = document.getElementById('os-logoff');
+        this.spCounter = document.getElementById('os-sp-counter');
+        this.appIcons = document.querySelectorAll('.os-icon');
+        this.closeButtons = document.querySelectorAll('.os-btn-close');
+
+        // App Windows
+        this.windows = {
+            work: document.getElementById('app-window-work'),
+            store: document.getElementById('app-window-store')
+        };
+
+        // DOM Elements - Synergy Alignment (Work App)
         this.statusText = document.getElementById('minigame-status');
         this.clusterArea = document.getElementById('data-cluster-area');
-        this.progressFill = document.getElementById('minigame-progress-fill');
         this.bins = document.querySelectorAll('.bin');
-        this.logoffBtn = document.getElementById('minigame-logoff');
+
+        // Store Elements
+        this.storeContainer = document.getElementById('store-items-container');
 
         // Game State
-        this.isActive = false;
-        this.targetScore = 12; // Total blocks needed
+        this.isActive = false; // Is OS booted
+        this.targetScore = 12; // Blocks needed
         this.currentScore = 0;
         this.dataTypes = ['compliance', 'optimization', 'disruption', 'redundancy'];
 
@@ -20,7 +33,21 @@ class MinigameSystem {
     }
 
     setupEventListeners() {
-        this.logoffBtn.addEventListener('click', () => this.stop());
+        this.logoffBtn.addEventListener('click', () => this.stopOS());
+
+        // App Icon Clicking
+        this.appIcons.forEach(icon => {
+            icon.addEventListener('click', () => {
+                this.launchApp(icon.dataset.app);
+            });
+        });
+
+        // Window Closing
+        this.closeButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                this.closeApp(btn.dataset.app);
+            });
+        });
 
         this.bins.forEach(bin => {
             bin.addEventListener('dragover', (e) => {
@@ -57,20 +84,57 @@ class MinigameSystem {
         });
     }
 
-    start() {
+    bootOS() {
         this.isActive = true;
-        this.currentScore = 0;
-        this.progressFill.style.width = '0%';
-        this.overlay.classList.remove('hidden');
-        this.statusText.innerText = "AWAITING INPUT... FILE: PROXY-01";
-        this.generateDataCluster();
+        this.osOverlay.classList.remove('hidden');
+        this.updateSPUI();
+        // Hide all windows initially
+        Object.values(this.windows).forEach(win => win.classList.add('hidden'));
     }
 
-    stop() {
+    stopOS() {
         this.isActive = false;
-        this.overlay.classList.add('hidden');
+        this.osOverlay.classList.add('hidden');
         this.clusterArea.innerHTML = '';
-        this.engine.showDialogue("You log off the terminal.");
+        this.engine.showDialogue("You log off the terminal and return to your desk.");
+    }
+
+    launchApp(appName) {
+        if (!this.windows[appName]) return;
+
+        // Hide others (single tasking OS for now)
+        Object.values(this.windows).forEach(win => win.classList.add('hidden'));
+
+        // Show selected
+        this.windows[appName].classList.remove('hidden');
+
+        // Init specific app logic
+        if (appName === 'work') {
+            this.startSynergyAlignment();
+        } else if (appName === 'store') {
+            this.renderStore();
+        }
+    }
+
+    closeApp(appName) {
+        if (this.windows[appName]) {
+            this.windows[appName].classList.add('hidden');
+            if (appName === 'work') {
+                this.clusterArea.innerHTML = ''; // Clear blocks if closed early
+            }
+        }
+    }
+
+    updateSPUI() {
+        this.spCounter.innerText = `SP: ${this.engine.gameState.synergyPoints}`;
+    }
+
+    // --- WORK APP: SYNERGY ALIGNMENT ---
+    startSynergyAlignment() {
+        this.currentScore = 0;
+        this.statusText.innerText = "AWAITING INPUT... FILE: PROXY-01";
+        this.statusText.style.color = "#4af626";
+        this.generateDataCluster();
     }
 
     generateDataCluster() {
@@ -124,8 +188,9 @@ class MinigameSystem {
 
     incrementProgress() {
         this.currentScore++;
-        const percent = (this.currentScore / this.targetScore) * 100;
-        this.progressFill.style.width = `${percent}%`;
+
+        // Optional: We removed the progress bar from UI for the desktop update,
+        // but we can just use the score directly to trigger completion.
 
         if (this.currentScore >= this.targetScore) {
             this.handleCompletion();
@@ -133,17 +198,86 @@ class MinigameSystem {
     }
 
     handleCompletion() {
-        this.statusText.innerText = "EGO CALIBRATED. CLEARANCE UPGRADED.";
+        this.statusText.innerText = "FILE COMPLETE. +150 SYNERGY POINTS.";
+        this.statusText.style.color = "#ffd700"; // Gold
         this.clusterArea.innerHTML = ''; // Clear any remaining if we had extra
 
-        // Upgrade the global game state proxy level
-        // Standard start is Level 1. This upgrades to Level 2.
-        this.engine.gameState.proxyLevel = 2;
+        // Award SP to the global economy
+        this.engine.addSP(150);
+        this.updateSPUI();
 
+        // Close the app window after a delay and return to desktop
         setTimeout(() => {
-            this.overlay.classList.add('hidden');
-            this.isActive = false;
-            this.engine.showDialogue("Your Proxy Card beeped. It feels heavier. Clearance upgraded to Level 2.");
+            this.closeApp('work');
         }, 3000);
+    }
+
+    // --- STORE APP ---
+    renderStore() {
+        this.storeContainer.innerHTML = '';
+
+        const storeItems = [
+            { id: 'proxy2', name: 'Level 2 Proxy Card Upgrade', cost: 500, desc: 'Grants access to the Breakroom.' },
+            { id: 'coffee', name: 'Premium Coffee Token', cost: 200, desc: 'A real coffee bean was waved over this cup.' },
+            { id: 'headphones', name: 'Noise Canceling Headphones', cost: 350, desc: 'Drowns out coworkers.' }
+        ];
+
+        storeItems.forEach(item => {
+            const el = document.createElement('div');
+            el.className = 'store-item';
+
+            const details = document.createElement('div');
+            details.className = 'store-item-details';
+            details.innerHTML = `<strong>${item.name}</strong><br><span>${item.desc}</span>`;
+
+            const costPanel = document.createElement('div');
+            costPanel.style.textAlign = 'right';
+            costPanel.innerHTML = `<div class="store-item-cost">${item.cost} SP</div>`;
+
+            const buyBtn = document.createElement('button');
+            buyBtn.className = 'btn-buy';
+            buyBtn.innerText = 'PURCHASE';
+
+            // Check if affords
+            if (this.engine.gameState.synergyPoints < item.cost) {
+                buyBtn.disabled = true;
+            }
+
+            buyBtn.addEventListener('click', () => {
+                this.purchaseItem(item);
+            });
+
+            costPanel.appendChild(buyBtn);
+            el.appendChild(details);
+            el.appendChild(costPanel);
+
+            this.storeContainer.appendChild(el);
+        });
+    }
+
+    purchaseItem(item) {
+        if (this.engine.gameState.synergyPoints >= item.cost) {
+            this.engine.gameState.synergyPoints -= item.cost;
+            this.updateSPUI();
+
+            // Process specific item logic connecting to main game engine
+            if (item.id === 'proxy2') {
+                this.engine.gameState.proxyLevel = 2;
+                this.engine.inventory.push("Level 2 Proxy Card");
+                this.engine.updateInventoryRender();
+                this.engine.showDialogue("PURCHASE SUCCESS: Your proxy clearance has been elevated.");
+            } else if (item.id === 'coffee') {
+                this.engine.inventory.push("Premium Coffee Token");
+                this.engine.updateInventoryRender();
+                this.engine.showDialogue("PURCHASE SUCCESS: Item printed smoothly via office requisition slot.");
+            } else if (item.id === 'headphones') {
+                this.engine.inventory.push("Noise Canceling Headphones");
+                this.engine.updateInventoryRender();
+                this.engine.showDialogue("PURCHASE SUCCESS: A heavy silence falls over you.");
+            }
+
+            // Re-render store to update button disabilities
+            this.renderStore();
+        }
     }
 }

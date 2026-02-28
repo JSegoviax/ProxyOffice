@@ -27,7 +27,8 @@ class GameEngine {
         this.inventory = [];
         this.activeItem = null;
         this.gameState = {
-            proxyLevel: 1 // Baseline level
+            proxyLevel: 1, // Baseline level
+            synergyPoints: 0 // Used to unlock perks and levels in the Company Store
         };
         this.dialogueSystem = new DialogueSystem(this);
         this.minigame = new MinigameSystem(this);
@@ -147,7 +148,7 @@ class GameEngine {
                         if (this.gameState.proxyLevel >= 2) {
                             this.showDialogue("Nothing else to do here. You already calibrated your ego.");
                         } else {
-                            this.minigame.start();
+                            this.minigame.bootOS();
                         }
                     }
                 }
@@ -369,6 +370,40 @@ class GameEngine {
 
     hideDialogue() {
         this.dialogueBox.classList.add('hidden');
+    }
+
+    addSP(amount) {
+        this.gameState.synergyPoints += amount;
+
+        // Visual notification of SP gain
+        const notification = document.createElement('div');
+        notification.className = 'sp-notification';
+        notification.innerText = `+${amount} SP`;
+        notification.style.position = 'absolute';
+        notification.style.left = '50%';
+        notification.style.top = '40%';
+        notification.style.transform = 'translate(-50%, -50%)';
+        notification.style.color = '#4af626';
+        notification.style.fontWeight = 'bold';
+        notification.style.fontSize = '24px';
+        notification.style.textShadow = '0 0 5px #4af626';
+        notification.style.zIndex = '2000';
+        notification.style.transition = 'all 2s ease-out';
+        notification.style.pointerEvents = 'none';
+
+        this.container.appendChild(notification);
+
+        // Animate floating up and fading out
+        requestAnimationFrame(() => {
+            notification.style.top = '30%';
+            notification.style.opacity = '0';
+        });
+
+        setTimeout(() => {
+            notification.remove();
+        }, 2000);
+
+        // If the minigame is active, hopefully it can listen or look up this value to update its own UI.
     }
 }
 
