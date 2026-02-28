@@ -50,6 +50,7 @@ class GameEngine {
                     id: "carlbot",
                     name: "Carlbot",
                     description: "A vintage, slightly rusted coffee machine on treads. It drips a highly corrosive brown sludge.",
+                    actionText: "Talk to Carlbot",
                     image: "assets/carlbot.png",
                     x: 234, y: 393, width: 156, height: 212,
                     onInteract: (element) => {
@@ -60,6 +61,7 @@ class GameEngine {
                     id: "hr_bot",
                     name: "HR Bot",
                     description: "A cheerful robot wearing a mangled party hat. It exists to enforce mandatory fun.",
+                    actionText: "Report to HR Bot",
                     image: "assets/hr_bot.png",
                     x: 600, y: 550, width: 104, height: 161,
                     onInteract: (element) => {
@@ -70,6 +72,7 @@ class GameEngine {
                     id: "gary",
                     name: "Gary",
                     description: "Your coworker, currently paralyzed by corporate anxiety. Don't look at his screen.",
+                    actionText: "Bother Gary",
                     image: "assets/gary.png",
                     x: 828, y: 440, width: 94, height: 191,
                     onInteract: (element) => {
@@ -80,6 +83,7 @@ class GameEngine {
                     id: "corporate_call",
                     name: "Corporate Monitor",
                     description: "The all-seeing eye of middle management. Failure is not an option.",
+                    actionText: "Listen to Corporate Monitor",
                     image: "assets/corporate_monitor.png",
                     x: 540, y: 150, width: 122, height: 181,
                     onInteract: (element) => {
@@ -90,6 +94,7 @@ class GameEngine {
                     id: "proxybot",
                     name: "Proxybot QC",
                     description: "A blank, soulless drone waiting for QA approval to replace a human worker.",
+                    actionText: "Inspect Proxybot QC",
                     image: "assets/proxybot.png",
                     x: 878, y: 700, width: 100, height: 151,
                     onInteract: (element) => {
@@ -100,6 +105,7 @@ class GameEngine {
                     id: "jims_locked_drawer",
                     name: "Locked Drawer",
                     description: "A hidden desk drawer. Feels like it needs a small key to open.",
+                    actionText: "Open Drawer",
                     x: 280, y: 700, width: 80, height: 50,
                     onInteract: (element) => {
                         if (this.gameState.drawerUnlocked) {
@@ -132,6 +138,7 @@ class GameEngine {
                     id: "protagonist_computer",
                     name: "Your Computer",
                     description: "Your terminal. The interface is archaic and the work is abstract.",
+                    actionText: "Log on to Terminal",
                     x: 150, y: 700, width: 80, height: 60, // approximate desk location bottom left
                     onInteract: (element) => {
                         if (this.gameState.proxyLevel >= 2) {
@@ -253,12 +260,12 @@ class GameEngine {
                 // Custom tooltip implementation
                 const triggerHover = (e) => {
                     this.tooltip.classList.remove('hidden');
-                    let actionText = "[ Left Click : Interact ]";
+                    let actionText = item.actionText ? `[ Left Click : ${item.actionText} ]` : "[ Left Click : Interact ]";
+
                     if (this.activeItem) {
                         actionText = `[ Left Click : Use ${this.activeItem} ]`;
-                    } else if (item.name === "Locked Drawer") {
-                        actionText = "[ Left Click : Open ]";
                     }
+
                     this.tooltip.innerHTML = `
                         <div class="tooltip-name">${item.name}</div>
                         <div class="tooltip-desc">${item.description || "A mysterious object."}</div>
